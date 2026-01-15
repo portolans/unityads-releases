@@ -13,10 +13,15 @@ let package = Package(
         ),
     ],
     targets: [
-        .binaryTarget(
+        .target(
             name: "UnityAds",
+            dependencies: ["UnityAdsBinary"],
+            resources: [.copy("Resources/PrivacyInfo.xcprivacy")],
+        ),
+        .binaryTarget(
+            name: "UnityAdsBinary",
             url: "https://github.com/portolans/unityads-releases/releases/download/4.16.5/UnityAds.xcframework.zip",
-            checksum: "24e04a39730a3e395e645a705d1d88493d30f9fb9ffa901482b422b7f270fb16",
+            checksum: "1634132ec7dcdf2cd416fecd7874dd4163f4b4150ca284fece077af81d5ed11d",
         ),
     ],
 )
