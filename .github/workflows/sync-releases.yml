@@ -75,6 +75,14 @@ jobs:
           CHECKSUM=$(xcrun swift package compute-checksum UnityAds.xcframework.zip)
           echo "CHECKSUM=$CHECKSUM" >> $GITHUB_ENV
           echo "Checksum: $CHECKSUM"
+      
+      - name: Copy PrivacyInfo.xcprivacy
+        if: steps.check.outputs.needs_update == 'true'
+        run: |
+          mkdir -p Sources/Resources
+          PRIVACY_INFO=$(find UnityAds.xcframework -name "PrivacyInfo.xcprivacy" | head -1)
+          echo "Found PrivacyInfo at: $PRIVACY_INFO"
+          cp "$PRIVACY_INFO" Sources/UnityAds/Resources/PrivacyInfo.xcprivacy
 
       - name: Update Package.swift
         if: steps.check.outputs.needs_update == 'true'
@@ -99,8 +107,13 @@ jobs:
                   ),
               ],
               targets: [
-                  .binaryTarget(
+                  .target(
                       name: "UnityAds",
+                      dependencies: ["UnityAdsBinary"],
+                      resources: [.copy("Resources/PrivacyInfo.xcprivacy")],
+                  ),
+                  .binaryTarget(
+                      name: "UnityAdsBinary",
                       url: "https://github.com/${REPO}/releases/download/${VERSION}/UnityAds.xcframework.zip",
                       checksum: "${CHECKSUM}",
                   ),
@@ -115,7 +128,7 @@ jobs:
         run: |
           git config user.name 'Portolabot'
           git config user.email portolabot@hiportola.com
-          git add Package.swift
+          git add Package.swift Sources/UnityAds/Resources/PrivacyInfo.xcprivacy
           git commit -m "Update to ${{ steps.upstream.outputs.version }}" || echo "No changes to commit"
           git push
 
