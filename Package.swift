@@ -20,8 +20,8 @@ let package = Package(
         ),
         .binaryTarget(
             name: "UnityAdsBinary",
-            url: "https://github.com/portolans/unityads-releases/releases/download/4.19.0/UnityAds.xcframework.zip",
-            checksum: "1fec5965fdc7d664ec472f5d5c16c0950244a3370fdff375e848c25cf6dbfbb1",
+            url: "https://github.com/portolans/unityads-releases/releases/download/4.20.0/UnityAds.xcframework.zip",
+            checksum: "345197f3bb833969a4cc1688aebc3ab15ad85f7f8964e5e91110cf51e1fd3ad5",
         ),
     ],
 )
